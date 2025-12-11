@@ -1,2 +1,3 @@
 import streamlit as st
-st.write("Hallo, *PETARUNG!*")
+st.title("This is a title")
+st.title("_PERSIB_ is :blue[WONDERFULL] :sunglasses:")
