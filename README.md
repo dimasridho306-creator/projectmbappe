@@ -1,19 +1,41 @@
-# 🎈 Blank app template
+String input = "";
+String password = "123";
 
-A simple Streamlit app template for you to modify!
+int ledHijau = 13;
+int ledMerah = 12;
+int ledKuning = 11;
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+void setup() {
+  Serial.begin(9600);
 
-### How to run it on your own machine
+  pinMode(ledHijau, OUTPUT);
+  pinMode(ledMerah, OUTPUT);
+  pinMode(ledKuning, OUTPUT);
 
-1. Install the requirements
+  digitalWrite(ledKuning, HIGH); // standby
+}
 
-   ```
-   $ pip install -r requirements.txt
-   ```
+void loop() {
+  if (Serial.available()) {
+    input = Serial.readStringUntil('\n');
 
-2. Run the app
+    digitalWrite(ledKuning, LOW); // lagi proses
 
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+    if (input == password) {
+      digitalWrite(ledHijau, HIGH);
+      digitalWrite(ledMerah, LOW);
+      Serial.println("Akses diterima");
+    } else {
+      digitalWrite(ledHijau, LOW);
+      digitalWrite(ledMerah, HIGH);
+      Serial.println("Akses ditolak");
+    }
+
+    delay(2000);
+
+    // balik ke standby
+    digitalWrite(ledHijau, LOW);
+    digitalWrite(ledMerah, LOW);
+    digitalWrite(ledKuning, HIGH);
+  }
+}
